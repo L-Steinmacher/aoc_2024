@@ -19,7 +19,8 @@ namespace AOCDay1
 
             Quicksort(left_ids, 0, left_ids.Count - 1);
             Quicksort(right_ids, 0, right_ids.Count - 1);
-
+            FindTotalDistanceBetweenLists(left_ids, right_ids);
+            Console.WriteLine(left_ids.Count);
 
         }
 
@@ -73,6 +74,19 @@ namespace AOCDay1
             int temp = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;
+        }
+
+        static int FindTotalDistanceBetweenLists(List<int> arr1, List<int> arr2)
+        {
+            int distanceDifferance = 0;
+            for (int i = 0; i < arr1.Count; i++)
+            {
+                Console.WriteLine($"left: {arr1[i]}, right: {arr2[i]} | diff = {Math.Abs(arr1[i] - arr2[i])}");
+                distanceDifferance += Math.Abs(arr1[i] - arr2[i]);
+            }
+            Console.WriteLine();
+            Console.WriteLine(distanceDifferance);
+            return distanceDifferance;
         }
     }
 }
