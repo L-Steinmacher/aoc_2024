@@ -5,6 +5,7 @@ namespace AOCDay1
 {
     public class Project
     {
+        private Dictionary<int, int> similarityDict = new();
         public static void Main(string[] args)
         {
             List<int> left_ids = [];
