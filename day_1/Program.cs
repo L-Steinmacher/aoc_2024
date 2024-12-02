@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Diagnostics.Metrics;
 using System.IO;
 
 namespace AOCDay1
 {
     public class Project
     {
-        private Dictionary<int, int> similarityDict = new();
+        private static SimilarityDict counter = new();
         public static void Main(string[] args)
         {
             List<int> left_ids = [];
@@ -14,14 +15,21 @@ namespace AOCDay1
             foreach (var line in lines)
             {
                 var ids = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                left_ids.Add(int.Parse(ids[0]));
-                right_ids.Add(int.Parse(ids[1]));
+                int leftId = int.Parse(ids[0]);
+                int rightId = int.Parse(ids[1]);
+
+                left_ids.Add(leftId);
+                counter.Increment(leftId, SimilarityDict.ListType.left_ids);
+                right_ids.Add(rightId);
+                counter.Increment(rightId, SimilarityDict.ListType.right_ids);
+
+                counter.PrintData();
             }
 
             Quicksort(left_ids, 0, left_ids.Count - 1);
             Quicksort(right_ids, 0, right_ids.Count - 1);
             FindTotalDistanceBetweenLists(left_ids, right_ids);
-            Console.WriteLine(left_ids.Count);
+            // Console.WriteLine(left_ids.Count);
 
         }
 
@@ -82,11 +90,11 @@ namespace AOCDay1
             int distanceDifferance = 0;
             for (int i = 0; i < arr1.Count; i++)
             {
-                Console.WriteLine($"left: {arr1[i]}, right: {arr2[i]} | diff = {Math.Abs(arr1[i] - arr2[i])}");
+                // Console.WriteLine($"left: {arr1[i]}, right: {arr2[i]} | diff = {Math.Abs(arr1[i] - arr2[i])}");
                 distanceDifferance += Math.Abs(arr1[i] - arr2[i]);
             }
-            Console.WriteLine();
-            Console.WriteLine(distanceDifferance);
+            // Console.WriteLine();
+            // Console.WriteLine(distanceDifferance);
             return distanceDifferance;
         }
     }
