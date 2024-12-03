@@ -11,12 +11,15 @@ namespace AOCDay2
 
         static void Main(string[] args)
         {
-
+            List<List<int>> reports = new();
             List<string> lines = Utilities.Parse_Input("input.txt");
             foreach (var line in lines)
             {
-                Console.WriteLine(line);
+                string[] reportString = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                List<int> report = new(Array.ConvertAll(reportString, int.Parse));
             }
+
+            Console.WriteLine(reports);
         }
     }
 }
