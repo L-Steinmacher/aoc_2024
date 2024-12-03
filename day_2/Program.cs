@@ -28,27 +28,38 @@ namespace AOCDay2
         public static bool AssessReportSafety(List<int> report)
         {
             bool safe = true;
-            int initialTrend = report[0] - report[1];
+            bool ascending = false;
+            bool descending = false;
             int safeStep = 3;
             for (int i = 1; i < report.Count; i++)
             {
-
-                int currTrend = report[i - 1] - report[i];
+                int previousLevel = report[i - 1];
+                int currentLevel = report[i];
+                int currDiff = previousLevel - currentLevel;
                 // Console.WriteLine($"currDiff: {currDiff}");
 
-                if (Math.Sign(currTrend) != Math.Sign(initialTrend))
+                if (currDiff > 0) descending = true;
+                else if (currDiff < 0) ascending = true;
+                else
+                {
+                    // Console.WriteLine($"currDiff == {currDiff}");
+                    safe = false;
+                    break;
+                }
+
+                if (ascending && descending)
                 {
                     safe = false;
                     break;
                 }
 
-                if (Math.Abs(currTrend) > safeStep)
+                if (Math.Abs(currDiff) > safeStep)
                 {
                     safe = false;
                     break;
                 }
             }
-
+            // Console.WriteLine(safe);
             return safe;
         }
     }
