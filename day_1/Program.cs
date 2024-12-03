@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Diagnostics.Metrics;
 using System.IO;
+using AOC2024.Common;
+
 
 namespace AOCDay1
 {
-    public class Project
+    public class Historian
     {
         private static SimilarityDict counter = new();
         public static void Main(string[] args)
         {
             List<int> left_ids = [];
             List<int> right_ids = [];
-            List<string> lines = Parse_Input("input.txt");
+            List<string> lines = Utilities.Parse_Input("input.txt");
             foreach (var line in lines)
             {
                 var ids = line.Split(" ", StringSplitOptions.RemoveEmptyEntries);
@@ -31,18 +33,6 @@ namespace AOCDay1
             FindTotalDistanceBetweenLists(left_ids, right_ids);
             // Console.WriteLine(left_ids.Count);
 
-        }
-
-        static List<string> Parse_Input(string path)
-        {
-            List<string> result = [];
-            var file_contents = File.ReadAllLines(path);
-            for (int i = 0; i < file_contents.Length; i++)
-            {
-                string line = file_contents[i];
-                result.Add(line);
-            }
-            return result;
         }
 
         static int Partition(List<int> arr, int left, int right)
