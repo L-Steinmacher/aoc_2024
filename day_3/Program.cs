@@ -12,10 +12,8 @@ namespace AOCDay3
         {
             int total = 0;
             List<string> lines = Utilities.Parse_Input("input.txt");
-            foreach (var line in lines)
-            {
-                total += MulFinder(line);
-            }
+            string input = string.Join(" ", lines);
+            total = MulFinder(input);
             Console.WriteLine(total);
             TestLineProcessing();
         }
