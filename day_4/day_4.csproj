@@ -9,4 +9,7 @@
 <ItemGroup>
     <Compile Include="../Utilities.cs" />
 </ItemGroup>
+<ItemGroup>
+    <Compile Include="../ExtensionMethods.cs" />
+</ItemGroup>
 </Project>
