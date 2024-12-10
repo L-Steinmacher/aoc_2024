@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using AOC2024.Common;
 using Microsoft.VisualBasic;
@@ -12,6 +13,7 @@ namespace AOCDay5
         public static List<List<int>> UpdatePages = new();
         static void Main(string[] args)
         {
+            int accumulator = 0;
             var lines = Utilities.Parse_Input("input.txt");
             foreach (var line in lines)
             {
@@ -19,16 +21,17 @@ namespace AOCDay5
                 {
                     continue;
                 }
-                else if (line.Length <= 5)
+
+                if (line.Length <= 5)
                 {
                     var digits = line.Split('|');
                     int before = int.Parse(digits[0]);
                     int after = int.Parse(digits[1]);
                     if (!OrderRules.ContainsKey(before))
                     {
-                        OrderRules[before] = new List<int>();
-                        OrderRules[before].Add(after);
+                        OrderRules[before] = new();
                     }
+                    OrderRules[before].Add(after);
                 }
                 else
                 {
@@ -37,11 +40,38 @@ namespace AOCDay5
 
                 // Console.WriteLine(line);
             }
-            foreach (var line in UpdatePages)
+            foreach (var pages in UpdatePages)
             {
-                string outputString = line.Select(x => x.ToString()).Aggregate((a, b) => a + " " + b);
-                Console.WriteLine(outputString);
+                accumulator += CheckOrdering(pages);
             }
+            Console.WriteLine(accumulator);
+        }
+
+        public static int CheckOrdering(List<int> pageList)
+        {
+            var indices = new Dictionary<int, int>();
+            for (int i = 0; i < pageList.Count; i++)
+            {
+                indices[pageList[i]] = i;
+            }
+
+            foreach (var pageNumber in pageList)
+            {
+                if (OrderRules.ContainsKey(pageNumber))
+                {
+                    foreach (var rule in OrderRules[pageNumber])
+                    {
+                        if (indices.TryGetValue(rule, out var ruleIndex) &&
+                            indices.TryGetValue(pageNumber, out var pageIndex))
+                        {
+                            if (pageIndex >= ruleIndex) // Rule violated
+                                return 0;
+                        }
+                    }
+                }
+            }
+
+            return pageList[(pageList.Count - 1) / 2];
         }
     }
 }
