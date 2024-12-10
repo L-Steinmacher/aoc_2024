@@ -10,6 +10,17 @@ namespace AOCDay4
         public static List<List<string>> LetterArrays = new();
         public static List<string> lines = new();
         public static List<string> XMAS = new() { "X", "M", "A", "S" };
+        public static List<string> MAS = new() { "M", "A", "S", };
+        public static List<(int, int)> XMASDirections = new() {
+            (0, -1),
+            (0, 1),
+            (-1, 0),
+            (1, 0),
+            (1, -1),
+            (1, 1),
+            (-1, -1),
+            (-1, 1)
+        };
 
         static void Main(string[] args)
         {
@@ -19,60 +30,35 @@ namespace AOCDay4
     line.Select(c => c.ToString()).ToList()
 ).ToList();
             int XMASes = 0;
+            int MASes = 0;
             for (int i = 0; i < LetterArrays.Count; i++)
             {
                 string curArray = lines[i];
-                XMASes += FindXMAS(curArray, i, LetterArrays);
+                XMASes += FindXMAS(curArray, i, LetterArrays, XMAS, XMASDirections);
+                MASes += FindXMAS(curArray, i, LetterArrays, MAS, XMASDirections);
             }
             Console.WriteLine(XMASes);
         }
 
-        public static int FindXMAS(string letterArray, int arrIndex, List<List<string>> matrix)
+        public static int FindXMAS(
+            string letterArray,
+             int arrIndex,
+              List<List<string>> matrix,
+               List<string> searchPattern,
+                List<(int, int)> directions
+                )
         {
             int XMASes = 0;
             for (int index = 0; index < letterArray.Length; index++)
             {
-                if (letterArray[index].ToString() != XMAS[0])
+                if (letterArray[index].ToString() != searchPattern[0])
                     continue;
-
-                if (CheckDirectionalPattern(index, arrIndex, matrix, 0, -1))
+                foreach (var direction in directions)
                 {
-                    XMASes++;
-                }
-
-                if (CheckDirectionalPattern(index, arrIndex, matrix, 0, 1))
-                {
-                    XMASes++;
-                }
-
-                if (CheckDirectionalPattern(index, arrIndex, matrix, -1, 0))
-                {
-                    XMASes++;
-                }
-
-                if (CheckDirectionalPattern(index, arrIndex, matrix, 1, 0))
-                {
-                    XMASes++;
-                }
-
-                if (CheckDirectionalPattern(index, arrIndex, matrix, 1, -1))
-                {
-                    XMASes++;
-                }
-
-                if (CheckDirectionalPattern(index, arrIndex, matrix, -1, -1))
-                {
-                    XMASes++;
-                }
-
-                if (CheckDirectionalPattern(index, arrIndex, matrix, 1, 1))
-                {
-                    XMASes++;
-                }
-
-                if (CheckDirectionalPattern(index, arrIndex, matrix, -1, 1))
-                {
-                    XMASes++;
+                    if (CheckDirectionalPattern(index, arrIndex, matrix, direction.Item1, direction.Item2))
+                    {
+                        XMASes++;
+                    }
                 }
 
             }
@@ -116,6 +102,7 @@ namespace AOCDay4
 
             return true;
         }
+
         // private static bool CheckLeft(string letterArray, int startIndex)
         // {
         //     if (startIndex < XMAS.Count - 1)
@@ -246,7 +233,7 @@ namespace AOCDay4
                 for (int i = 0; i < testMatrix.Count; i++)
                 {
                     string curArray = lines[i];
-                    XMASes += FindXMAS(curArray, i, testMatrix);
+                    XMASes += FindXMAS(curArray, i, testMatrix, XMAS, XMASDirections);
                 }
 
                 // Assert the result
