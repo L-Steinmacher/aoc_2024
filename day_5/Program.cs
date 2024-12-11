@@ -14,6 +14,7 @@ namespace AOCDay5
         static void Main(string[] args)
         {
             int accumulator = 0;
+            int reorderAccumulator = 0;
             var lines = Utilities.Parse_Input("input.txt");
             foreach (var line in lines)
             {
@@ -38,18 +39,20 @@ namespace AOCDay5
                     UpdatePages.Add(line.Split(',').Select(int.Parse).ToList());
                 }
 
-                // Console.WriteLine(line);
+
             }
             foreach (var pages in UpdatePages)
             {
-                accumulator += CheckOrdering(pages);
+                var res = CheckOrdering(pages);
+
+                reorderAccumulator += res;
             }
-            Console.WriteLine(accumulator);
+            Console.WriteLine($"accumulator: {accumulator}, reordered{reorderAccumulator}");
         }
 
         public static int CheckOrdering(List<int> pageList)
         {
-            var indices = new Dictionary<int, int>();
+            Dictionary<int, int> indices = new Dictionary<int, int>();
             for (int i = 0; i < pageList.Count; i++)
             {
                 indices[pageList[i]] = i;
@@ -65,13 +68,52 @@ namespace AOCDay5
                             indices.TryGetValue(pageNumber, out var pageIndex))
                         {
                             if (pageIndex >= ruleIndex) // Rule violated
-                                return 0;
+                            {
+                                return ReformatPageList(pageList, indices, ruleIndex, pageIndex);
+                            }
                         }
                     }
                 }
             }
 
-            return pageList[(pageList.Count - 1) / 2];
+            return 0;
         }
+
+        public static int ReformatPageList(List<int> pageList, Dictionary<int, int> indices, int ruleIndex, int pageIndex)
+        {
+            bool needsReformatting = false;
+            var pageNumber = pageList[pageIndex];
+            int temp = pageList[ruleIndex];
+            pageList[ruleIndex] = pageList[pageIndex];
+            pageList[pageIndex] = temp;
+
+            indices[pageList[ruleIndex]] = ruleIndex;
+            indices[pageList[pageIndex]] = pageIndex;
+
+            foreach (var page in pageList)
+            {
+                if (OrderRules.ContainsKey(page))
+                {
+                    foreach (var rule in OrderRules[page])
+                    {
+                        if (
+                            indices.TryGetValue(rule, out var rulePageIndex) &&
+                            indices.TryGetValue(page, out var currentPageIndex)
+                            )
+                        {
+                            if (currentPageIndex >= rulePageIndex)
+                            {
+                                needsReformatting = true;
+                                return ReformatPageList(pageList, indices, rulePageIndex, currentPageIndex);
+                            }
+                        }
+                    }
+                }
+            }
+            if (!needsReformatting)
+                return pageList[(pageList.Count - 1) / 2];
+            return 0;
+        }
+
     }
 }
