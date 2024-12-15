@@ -14,8 +14,9 @@ namespace AOCDay6
             foreach (var line in lines)
             {
                 // Your day's solution logic here
+                Console.WriteLine(line);
             }
-
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Solution complete.");
         }
 
