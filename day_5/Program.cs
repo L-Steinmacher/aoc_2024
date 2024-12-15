@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using AOC2024.Common;
-using Microsoft.VisualBasic;
 
 namespace AOCDay5
 {

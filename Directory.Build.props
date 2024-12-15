@@ -1,15 +1,17 @@
 <Project>
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <!-- Ensure SolutionDir is correctly set -->
+    <SolutionDir Condition="'$(SolutionDir)' == ''">$(MSBuildThisFileDirectory)</SolutionDir>
+    <OutputPath>$(SolutionDir)/bin/$(Configuration)/$(TargetFramework)/</OutputPath>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="$(SolutionDir)Utilities.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="$(SolutionDir)ExtensionMethods.cs" />
+    <!-- Reference utilities from AOC2024.Common -->
+    <Compile Include="$(SolutionDir)/Utilities.cs" />
+    <Compile Include="$(SolutionDir)/ExtensionMethods.cs" />
   </ItemGroup>
 </Project>

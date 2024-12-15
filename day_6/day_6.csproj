@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Utilities.cs" />
+    <Compile Include="..\ExtensionMethods.cs" />
+    <Compile Include="..\DayBase.cs" />
+  </ItemGroup>
+
+</Project>
