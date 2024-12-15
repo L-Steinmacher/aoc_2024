@@ -1,12 +1,11 @@
 using System;
-using AOC2024.Common;
 using AOC2024.Base;
 
 namespace AOCDay6
 {
-    public class DaySolution : DayBase
+    public class Day6Solution : DayBase
     {
-        public DaySolution(string inputFile = "input.txt") : base(inputFile) { }
+        public Day6Solution(string inputFile = "input.txt") : base(inputFile) { }
 
         public override void Solve()
         {
@@ -22,7 +21,7 @@ namespace AOCDay6
 
         public static void Main(string[] args)
         {
-            new DaySolution().Run();
+            new Day6Solution().Run();
         }
     }
 }

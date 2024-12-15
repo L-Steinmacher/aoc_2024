@@ -25,7 +25,7 @@ namespace AOC2024.Base
         // Main method to be inherited
         public void Run()
         {
-            Console.WriteLine($"Running solution for {GetType().Name}...");
+            Console.WriteLine($"Running solution for {this.GetType().Name}...");
             Solve();
         }
     }

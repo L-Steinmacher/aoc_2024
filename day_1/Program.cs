@@ -31,7 +31,7 @@ namespace AOCDay1
             Quicksort(left_ids, 0, left_ids.Count - 1);
             Quicksort(right_ids, 0, right_ids.Count - 1);
             FindTotalDistanceBetweenLists(left_ids, right_ids);
-            // Console.WriteLine(left_ids.Count);
+            Console.WriteLine(left_ids.Count);
 
         }
 
